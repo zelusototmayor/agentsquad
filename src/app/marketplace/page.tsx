@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { sampleAgents } from '@/lib/agent-data';
 import Link from 'next/link';

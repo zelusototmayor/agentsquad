@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
