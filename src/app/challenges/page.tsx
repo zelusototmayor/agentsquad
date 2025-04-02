@@ -1,6 +1,18 @@
 import React from 'react';
 
+export const metadata = {
+  title: 'Challenges - AgentSquad',
+};
+
 export default function ChallengesPage() {
+  return (
+    <ClientChallengesPage />
+  );
+}
+
+"use client";
+
+function ClientChallengesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="md:flex md:items-center md:justify-between mb-8">

@@ -1,9 +1,20 @@
-"use client";
-
 import React from 'react';
-import { Agent } from '@/types/agent';
+
+export const metadata = {
+  title: 'Share Agent - AgentSquad',
+};
 
 export default function SharePage() {
+  return (
+    <ClientSharePage />
+  );
+}
+
+"use client";
+
+import { Agent } from '@/types/agent';
+
+function ClientSharePage() {
   // This would normally come from the URL or state
   const sampleAgent: Agent = {
     id: '1',
