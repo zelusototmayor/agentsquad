@@ -1,10 +1,21 @@
+import React from 'react';
+
+export const metadata = {
+  title: 'Agent Marketplace - AgentSquad',
+};
+
+export default function MarketplacePage() {
+  return (
+    <ClientMarketplace />
+  );
+}
+
 "use client";
 
-import React from 'react';
 import { sampleAgents } from '@/lib/agent-data';
 import Link from 'next/link';
 
-export default function MarketplacePage() {
+function ClientMarketplace() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="md:flex md:items-center md:justify-between mb-8">
