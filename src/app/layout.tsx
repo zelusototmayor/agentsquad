@@ -1,8 +1,3 @@
-"use client";
-
-import { AuthProvider } from '@/lib/auth-context';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -21,16 +16,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-grow pt-16">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </AuthProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
+  );
+}
+
+// Client component for authentication and other client-side functionality
+"use client";
+
+import { AuthProvider } from '@/lib/auth-context';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+
+function ClientLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthProvider>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow pt-16">
+          {children}
+        </main>
+        <Footer />
+      </div>
+    </AuthProvider>
   );
 }
