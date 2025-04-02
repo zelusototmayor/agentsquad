@@ -1,8 +1,11 @@
+"use client";
+
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className="bg-white">
       {/* Hero section */}
@@ -20,12 +23,18 @@ export default function Home() {
               Create, customize, and share AI agents that work together as your personal productivity team. Enhance your workflow with specialized agents for research, writing, coding, and more.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/agent-creation" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <button 
+                onClick={() => router.push('/agent-creation')}
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
                 Create Your First Agent
-              </Link>
-              <Link href="/marketplace" className="text-sm font-semibold leading-6 text-gray-900">
+              </button>
+              <button 
+                onClick={() => router.push('/marketplace')}
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
                 Explore Marketplace <span aria-hidden="true">→</span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -111,12 +120,18 @@ export default function Home() {
               Start building your AI agent squad today and transform how you work.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/agent-creation" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <button 
+                onClick={() => router.push('/agent-creation')}
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
                 Get started
-              </Link>
-              <Link href="/marketplace" className="text-sm font-semibold leading-6 text-gray-900">
+              </button>
+              <button 
+                onClick={() => router.push('/marketplace')}
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
                 Learn more <span aria-hidden="true">→</span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>

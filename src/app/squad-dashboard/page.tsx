@@ -1,26 +1,31 @@
-import React from 'react';
-
-export const metadata = {
-  title: 'Squad Dashboard - AgentSquad',
-};
-
-export default function SquadDashboardPage() {
-  return (
-    <ClientSquadDashboard />
-  );
-}
-
 "use client";
 
+import React, { useState, useEffect } from 'react';
 import { sampleAgents } from '@/lib/agent-data';
 import Link from 'next/link';
 
-function ClientSquadDashboard() {
-  // For demo purposes, we'll use the sample agents as if they're in the user's squad
-  const myAgents = sampleAgents.map(agent => ({
-    ...agent,
-    isActive: Math.random() > 0.3 // Randomly set some agents as active
-  }));
+function SquadDashboardPage() {
+  // Use useState to manage agent state instead of calculating on render
+  const [myAgents, setMyAgents] = useState([]);
+  
+  // Initialize agents with pre-determined active states on component mount
+  useEffect(() => {
+    // Use a deterministic approach instead of Math.random()
+    const agentsWithActiveState = sampleAgents.map((agent, index) => ({
+      ...agent,
+      isActive: index % 3 === 0 // Every third agent is active (deterministic pattern)
+    }));
+    setMyAgents(agentsWithActiveState);
+  }, []);
+
+  // Handle toggle functionality
+  const toggleAgentActive = (agentId) => {
+    setMyAgents(prevAgents => 
+      prevAgents.map(agent => 
+        agent.id === agentId ? {...agent, isActive: !agent.isActive} : agent
+      )
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -107,17 +112,24 @@ function ClientSquadDashboard() {
                         name={`toggle-${agent.id}`} 
                         id={`toggle-${agent.id}`} 
                         className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                        defaultChecked={agent.isActive}
+                        checked={agent.isActive}
+                        onChange={() => toggleAgentActive(agent.id)}
                       />
                       <label 
                         htmlFor={`toggle-${agent.id}`} 
                         className={`toggle-label block overflow-hidden h-6 rounded-full cursor-pointer ${agent.isActive ? 'bg-indigo-400' : 'bg-gray-300'}`}
                       ></label>
                     </div>
-                    <button className="text-indigo-600 hover:text-indigo-900">
+                    <button 
+                      className="text-indigo-600 hover:text-indigo-900"
+                      onClick={() => alert(`Edit ${agent.name}`)}
+                    >
                       Edit
                     </button>
-                    <button className="text-indigo-600 hover:text-indigo-900">
+                    <button 
+                      className="text-indigo-600 hover:text-indigo-900"
+                      onClick={() => alert(`Share ${agent.name}`)}
+                    >
                       Share
                     </button>
                   </div>
@@ -153,12 +165,11 @@ function ClientSquadDashboard() {
               type="text"
               className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
               placeholder="Type your message to the squad..."
-              disabled
             />
             <button
               type="button"
               className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled
+              onClick={() => alert('Message sent!')}
             >
               Send
             </button>
@@ -168,3 +179,5 @@ function ClientSquadDashboard() {
     </div>
   );
 }
+
+export default SquadDashboardPage;

@@ -1,11 +1,27 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth-context';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
+  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.push('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full z-30">
@@ -36,22 +52,29 @@ export default function Navbar() {
                   {user.email}
                 </span>
                 <button 
-                  onClick={() => signOut()}
+                  onClick={handleSignOut}
                   className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium"
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
-              <Link href="/auth">
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium">
-                  Sign In
-                </button>
-              </Link>
+              <button 
+                onClick={() => router.push('/auth')}
+                className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                Sign In
+              </button>
             )}
           </div>
           <div className="-mr-2 flex items-center sm:hidden">
-            <button type="button" className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
+            <button 
+              type="button" 
+              onClick={toggleMobileMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" 
+              aria-controls="mobile-menu" 
+              aria-expanded={mobileMenuOpen}
+            >
               <span className="sr-only">Open main menu</span>
               <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -61,31 +84,45 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="pt-2 pb-3 space-y-1">
-          <Link href="/agent-creation" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
-            Create Agent
-          </Link>
-          <Link href="/squad-dashboard" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
-            Squad Dashboard
-          </Link>
-          <Link href="/marketplace" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
-            Marketplace
-          </Link>
-          {user ? (
+      {mobileMenuOpen && (
+        <div className="sm:hidden" id="mobile-menu">
+          <div className="pt-2 pb-3 space-y-1">
             <button 
-              onClick={() => signOut()}
+              onClick={() => router.push('/agent-creation')}
               className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium w-full text-left"
             >
-              Sign Out
+              Create Agent
             </button>
-          ) : (
-            <Link href="/auth" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
-              Sign In
-            </Link>
-          )}
+            <button 
+              onClick={() => router.push('/squad-dashboard')}
+              className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium w-full text-left"
+            >
+              Squad Dashboard
+            </button>
+            <button 
+              onClick={() => router.push('/marketplace')}
+              className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium w-full text-left"
+            >
+              Marketplace
+            </button>
+            {user ? (
+              <button 
+                onClick={handleSignOut}
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium w-full text-left"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <button 
+                onClick={() => router.push('/auth')}
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium w-full text-left"
+              >
+                Sign In
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }
