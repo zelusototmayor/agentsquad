@@ -1,10 +1,21 @@
+import React from 'react';
+
+export const metadata = {
+  title: 'Squad Dashboard - AgentSquad',
+};
+
+export default function SquadDashboardPage() {
+  return (
+    <ClientSquadDashboard />
+  );
+}
+
 "use client";
 
-import React from 'react';
 import { sampleAgents } from '@/lib/agent-data';
 import Link from 'next/link';
 
-export default function SquadDashboardPage() {
+function ClientSquadDashboard() {
   // For demo purposes, we'll use the sample agents as if they're in the user's squad
   const myAgents = sampleAgents.map(agent => ({
     ...agent,
@@ -156,16 +167,4 @@ export default function SquadDashboardPage() {
       </div>
     </div>
   );
-}
-
-// Add some CSS for the toggle switch
-export const metadata = {
-  title: 'Squad Dashboard - AgentSquad',
-};
-
-// Add this to your global CSS or as a style tag
-export function generateMetadata() {
-  return {
-    title: 'Squad Dashboard - AgentSquad',
-  };
 }

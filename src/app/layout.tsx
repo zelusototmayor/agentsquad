@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
+import ClientLayout from '@/components/ClientLayout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,26 +20,5 @@ export default function RootLayout({
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
-  );
-}
-
-// Client component for authentication and other client-side functionality
-"use client";
-
-import { AuthProvider } from '@/lib/auth-context';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-
-function ClientLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <AuthProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow pt-16">
-          {children}
-        </main>
-        <Footer />
-      </div>
-    </AuthProvider>
   );
 }
